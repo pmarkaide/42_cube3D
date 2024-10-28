@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dbejar-s <dbejar-s@student.hive.fi>        +#+  +:+       +#+         #
+#    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/28 11:57:01 by dbejar-s          #+#    #+#              #
-#    Updated: 2024/10/28 12:07:17 by dbejar-s         ###   ########.fr        #
+#    Updated: 2024/10/28 13:45:28 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIBS = ./libmlx/libmlx42.a -Iinclude -ldl -lglfw -pthread -lm
+LIBS = ./lib/MLX42/build/libmlx42.a -Iinclude -ldl -lglfw -pthread -lm
 SRCS = ./src/main.c
 OBJS = $(SRCS:.c=.o)
 RM = rm -f
