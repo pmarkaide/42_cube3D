@@ -12,15 +12,15 @@
 
 #include "cub3D.h"
 
-t_macro *init_macro(t_macro *macro)
+t_macro	*init_macro(t_macro *macro)
 {
-    macro = malloc(sizeof(t_macro));
-    if (!macro)
-        return (NULL);
-    macro->map = malloc(sizeof(t_map));
-    if (!macro->map)
-        return (NULL);
-    return (macro);
+	macro = malloc(sizeof(t_macro));
+	if (!macro)
+		return (NULL);
+	macro->map = malloc(sizeof(t_map));
+	if (!macro->map)
+		return (NULL);
+	return (macro);
 }
 
 // int32_t	game_init(t_map map)

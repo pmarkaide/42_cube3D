@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:08:42 by dbejar-s          #+#    #+#             */
-/*   Updated: 2024/10/29 15:51:31 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:00:59 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ typedef struct s_macro
 	int			play_y;
 	char		play_facing;
 	t_mlx		*m_mlx;
-
 }				t_macro;
 
 #endif
 
 t_macro	*init_macro(t_macro *macro);
-int	validate_map(char *file, t_map *map);
+void	validate_map(char *file, t_macro *macro);
 void	free_and_exit(t_macro *macro);

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:10:04 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 15:31:44 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:59:45 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	free_map(t_macro *macro)
 			free(macro->map->we);
 		if (macro->map->ea)
 			free(macro->map->ea);
-		if (macro->map->f)
+		if (*macro->map->f)
 			free(macro->map->f);
-		if (macro->map->c)
+		if (*macro->map->c)
 			free(macro->map->c);
 		if (macro->map->map)
 			free(macro->map->map);
@@ -39,7 +39,7 @@ void	free_macro(t_macro *macro)
 	free_map(macro);
 	if (macro->m_mlx)
 	{
-		mlx_delete_image(macro->m_mlx, macro->m_mlx->img);
+		mlx_delete_image(macro->m_mlx->mlx_cub, macro->m_mlx->img);
 		mlx_close_window(macro->m_mlx->mlx_cub);
 		mlx_terminate(macro->m_mlx->mlx_cub);
 	}
