@@ -22,7 +22,7 @@ SRCS_DIR = src
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LIBS = ./lib/MLX42/build/libmlx42.a -Iinclude -ldl -lglfw -pthread -lm
 OBJS = $(SRCS:.c=.o)
 RM = rm -f

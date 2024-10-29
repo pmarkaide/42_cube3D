@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 16:00:50 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:12:55 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,21 @@
 static int	eval_file(char *file)
 {
 	char	*dot;
+	int fd;
 
 	dot = ft_strrchr(file, '.');
-	if (ft_strcmp(dot, ".cub"))
+	if(dot == NULL || (dot != NULL && ft_strcmp(dot, ".cub")))
 	{
-		printf(".cub extension");
-		return (0);
-	}
-	else
-	{
-		printf("Error\nIncorrect file extension\n");
+		write(2, "Error\nWrong file extension\n", 27);
 		return (1);
 	}
+	fd = open(file, O_RDONLY);
+	if(fd == -1)
+	{
+		write(2, "Error\nCannot open file\n", 24);
+		return (1);
+	}
+	return(0);
 }
 
 void	validate_map(char *file, t_macro *macro)

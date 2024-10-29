@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:10:04 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 15:59:45 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:06:15 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_macro(t_macro *macro)
 
 void	free_and_exit(t_macro *macro)
 {
-	write(2, "Error\n", 6);
+	//write(2, "Error\n", 6);
 	free_macro(macro);
 	exit(1);
 }
