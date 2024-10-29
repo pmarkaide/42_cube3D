@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:10:04 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 16:06:15 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:09:01 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_map(t_macro *macro)
 {
+	int i;
+	i = -1;
 	if (macro->map)
 	{
 		if (macro->map->no)
@@ -24,12 +26,12 @@ void	free_map(t_macro *macro)
 			free(macro->map->we);
 		if (macro->map->ea)
 			free(macro->map->ea);
-		if (*macro->map->f)
-			free(macro->map->f);
-		if (*macro->map->c)
-			free(macro->map->c);
 		if (macro->map->map)
-			free(macro->map->map);
+        {
+            while (++i < macro->map->h_map)
+                free(macro->map->map[i]);
+            free(macro->map->map);
+        }
 		free(macro->map);
 	}
 }

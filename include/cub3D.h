@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:08:42 by dbejar-s          #+#    #+#             */
-/*   Updated: 2024/10/29 16:00:59 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:02:35 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_map
 	char		*so;
 	char		*we;
 	char		*ea;
-	int			*f[3];
-	int			*c[3];
+	int			f[3];
+	int			c[3];
 	char		**map;
 	int			w_map;
 	int			h_map;
