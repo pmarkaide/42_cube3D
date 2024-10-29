@@ -12,7 +12,14 @@
 
 NAME = cub3D
 
-SRCS = ./src/main.c
+SRCS = \
+	main.c \
+	init.c \
+	free.c \
+	validate_map.c
+
+SRCS_DIR = src
+SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
