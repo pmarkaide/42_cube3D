@@ -6,16 +6,37 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 22:34:41 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:38:10 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+static int check_file_contents(char *file)
+{
+	int fd;
+	char buffer[1];
+	ssize_t bytes_read;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_printf(2, "Error\nCannot open file %s\n", file);
+		return (1);
+	}
+	bytes_read = read(fd, buffer, 1);
+	close(fd);
+	if (bytes_read <= 0)
+	{
+		ft_printf(2, "Error\nFile %s is empty or unreadable\n", file);
+		return (1);
+	}
+	return (0);
+}
+
 static int	eval_file(char *file, char *ext)
 {
 	char	*dot;
-	int fd;
 
 	if(ft_strcmp(ext,".cub") == 0)
 	{
@@ -26,13 +47,7 @@ static int	eval_file(char *file, char *ext)
 			return (1);
 		}
 	}
-	fd = open(file, O_RDONLY);
-	if(fd == -1)
-	{
-		ft_printf(2, "Error\nCannot open file %s\n", file);
-		return (1);
-	}
-	return(0);
+	return check_file_contents(file);
 }
 
 static int parse_textures(char *line, t_macro *macro)
@@ -149,13 +164,13 @@ static int read_file(char *file, t_macro *macro)
 
 static int validate_textures(t_macro *macro)
 {
-	if (eval_file(macro->map->no, ""))
+	if (check_file_contents(macro->map->no))
 		return (1);
-	if (eval_file(macro->map->so, ""))
+	if (check_file_contents(macro->map->so))
 		return (1);
-	if (eval_file(macro->map->we, ""))
+	if (check_file_contents(macro->map->we))
 		return (1);
-	if (eval_file(macro->map->ea, ""))
+	if (check_file_contents(macro->map->ea))
 		return (1);
 	return (0);
 }
