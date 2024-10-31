@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 17:46:50 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:11:27 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	eval_file(char *file, char *ext)
 	}
 	return(0);
 }
-
 
 static int parse_textures(char *line, t_macro *macro)
 {
@@ -76,7 +75,9 @@ static int detect_section(char *line)
 	int section;
 
 	skipped = ft_skipws(line);
-	if(ft_strncmp(skipped, "NO ",3) == 0)
+	if (*skipped == '\0' || *skipped == '\n')
+		section = 0;
+	else if(ft_strncmp(skipped, "NO ",3) == 0)
 		section= 1;
 	else if(ft_strncmp(skipped, "SO ",3) == 0)
 		section= 1;
@@ -109,6 +110,8 @@ static int parse_line(char *line, t_macro *macro, int section, t_list **head)
 	int err;
 
 	err = 0;
+	if(section == 0)
+		return(0);
 	if(section == 1)
 		err = parse_textures(line, macro);
 	if(section == 2)
@@ -131,8 +134,9 @@ static int read_file(char *file, t_macro *macro)
 		section = detect_section(line);
 		if (parse_line(line, macro, section, &head))
 		{
-			free(line);
 			close(fd);
+			free(line);
+			ft_lstclear(&head, free);
 			return (1);
 		}
 		free(line);
