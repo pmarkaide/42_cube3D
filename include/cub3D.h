@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:08:42 by dbejar-s          #+#    #+#             */
-/*   Updated: 2024/10/29 17:02:35 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:06:56 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,9 @@ typedef struct s_macro
 t_macro	*init_macro(t_macro *macro);
 void	validate_map(char *file, t_macro *macro);
 void	free_and_exit(t_macro *macro);
+
+
+
+
+/* _utils */
+void	print_map_struct(t_map *map);
