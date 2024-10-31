@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:08:37 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/03 09:12:32 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:46:33 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 
-int					ft_printf(const char *format, ...);
-int					ft_putformat(char specifier, va_list args);
+int					ft_printf(int fd, const char *format, ...);
 int					ft_error_w(int print_count, int write_return);
 int					ft_putchar_fd(char c, int fd);
 int					ft_putstr_fd(char *s, int fd);
@@ -72,6 +71,7 @@ void				ft_print_char_array(char **array);
 void				ft_print_int_array(int **array);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_char_array_len(char **array);
+char 				*ft_skipws(char *line);
 
 typedef struct s_list
 {
