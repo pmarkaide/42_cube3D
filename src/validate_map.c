@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 16:12:55 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 08:43:22 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,24 @@
 // eval colors
 // eval map
 
-static int	eval_file(char *file)
+static int	eval_file(char *file, char *ext)
 {
 	char	*dot;
 	int fd;
 
-	dot = ft_strrchr(file, '.');
-	if(dot == NULL || (dot != NULL && ft_strcmp(dot, ".cub")))
+	if(ext == ".cub")
 	{
-		write(2, "Error\nWrong file extension\n", 27);
-		return (1);
+		dot = ft_strrchr(file, '.');
+		if(dot == NULL || (dot != NULL && ft_strcmp(dot, ".cub")))
+		{
+			ft_printf(2, "Error\nWrong file extension\n");
+			return (1);
+		}
 	}
 	fd = open(file, O_RDONLY);
 	if(fd == -1)
 	{
-		write(2, "Error\nCannot open file\n", 24);
+		ft_printf(2, "Error\nCannot open file %s\n", file);
 		return (1);
 	}
 	return(0);
@@ -64,7 +67,7 @@ static int	eval_file(char *file)
 
 void	validate_map(char *file, t_macro *macro)
 {
-	if (eval_file(file))
+	if (eval_file(file, ".cub"))
 		free_and_exit(macro);
 	// if (read_file(file, macro))
 	// 	free_and_exit(macro);

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:45:44 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/29 15:49:23 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 08:32:16 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ t_macro	*init_macro(t_macro *macro)
 		return (NULL);
 	macro->map = malloc(sizeof(t_map));
 	if (!macro->map)
+	{
+		free(macro);
 		return (NULL);
+	}
 	return (macro);
 }
 
