@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 16:54:34 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:46:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,18 @@ static int detect_section(char *line)
 	return(section);
 }
 
-static int parse_map(char *line, t_macro *macro)
+static int parse_map(char *line, t_list **head)
 {
-	 static t_list *head;
+	t_list *new;
 
-	 head = NULL;
-	 
-	 
+	new = ft_lstnew(ft_strdup(line));
+	if (!new)
+		return (1);
+	ft_lstadd_back(head, new);
+	return (0);
 }
 
-static int parse_line(char *line, t_macro *macro, int section)
+static int parse_line(char *line, t_macro *macro, int section, t_list **head)
 {
 	int err;
 
@@ -112,7 +114,7 @@ static int parse_line(char *line, t_macro *macro, int section)
 	if(section == 2)
 		err = parse_colors(line, macro);
 	if(section == 3)
-		err = parse_map(line, macro);
+		err = parse_map(line, head);
 	return(err);
 }
 
@@ -121,12 +123,13 @@ static int read_file(char *file, t_macro *macro)
 	char *line;
 	int fd;
 	int section;
+	t_list *head = NULL;
 	
 	fd = open(file, O_RDONLY);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		section = detect_section(line);
-		if (parse_line(line, macro, section))
+		if (parse_line(line, macro, section, &head))
 		{
 			free(line);
 			close(fd);
@@ -135,6 +138,8 @@ static int read_file(char *file, t_macro *macro)
 		free(line);
 	}
 	close(fd);
+	macro->map->map = ft_lst_to_array(&head);
+	ft_lstclear(&head, free); 
 	return (0);
 }
 
