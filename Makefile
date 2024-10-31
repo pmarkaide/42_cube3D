@@ -12,7 +12,7 @@
 
 NAME = cub3D
 
-SRCS = ./src/main.c
+SRCS = ./src/main.c ./src/hooks.c ./src/utils.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
