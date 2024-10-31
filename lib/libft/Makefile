@@ -6,7 +6,7 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 12:10:27 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/08/22 12:26:35 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/10/31 08:57:31 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,8 @@ SRC = \
 	ft_lst_to_array.c \
 	ft_isdelim.c \
 	ft_strndup.c \
-	ft_remove_char.c
+	ft_remove_char.c \
+	ft_skipws.c
 
 INCLUDES = .
 
