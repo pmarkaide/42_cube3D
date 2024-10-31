@@ -6,41 +6,11 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 14:11:42 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:21:37 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-// int eval_file(argv[1])
-// confirm the extension .cub
-// file = open(argv[1])
-// else return error
-
-// int read_file(argv[1])
-// line = get_next_line(fd)
-// skip_whitespaces
-// get_first chars
-// eval if they are correct (from list and from existing)
-// if good skip_whitespaces, save
-// else error
-
-// int eval_textures(map)
-// eval_file(texture_file)
-// else error
-
-// int eval_colors(map)
-// int in range 0-255
-
-// int eval_map(map)
-// correct chars
-// spaces to walls
-// surrounded by walls
-
-// int eval_elements(map)
-// eval textures
-// eval colors
-// eval map
 
 static int	eval_file(char *file, char *ext)
 {
@@ -66,7 +36,7 @@ static int	eval_file(char *file, char *ext)
 }
 
 
-int parse_textures(char *line, t_macro *macro)
+static int parse_textures(char *line, t_macro *macro)
 {
 	if(ft_strncmp(line, "NO",2) == 0)
 		macro->map->no = ft_strdup(ft_skipws(line + 2));
@@ -79,56 +49,65 @@ int parse_textures(char *line, t_macro *macro)
 	return(0);
 }
 
-// int parse_colors(char *line, t_macro *macro)
-// {
-// 	else if(ft_strncmp(line, "F",1) == 0)
-// 	{
-// 		macro->map->f[0] = ft_atoi(ft_skipws(line + 1));
-// 		macro->map->f[1] = ft_atoi(ft_skipws(line + 3));
-// 		macro->map->f[2] = ft_atoi(ft_skipws(line + 5));
-// 	}
-// 	else if(ft_strncmp(line, "C",1) == 0)
-// 	{
-// 		macro->map->c[0] = ft_atoi(ft_skipws(line + 1));
-// 		macro->map->c[1] = ft_atoi(ft_skipws(line + 3));
-// 		macro->map->c[2] = ft_atoi(ft_skipws(line + 5));
-// 	}
-// }
+static  int parse_colors(char *line, t_macro *macro)
+{
+	char *skipped;
+	int i;
 
-int detect_section(char *line)
+	i = -1;
+	skipped = ft_skipws(line);
+	skipped = ft_skipws(skipped + 1);
+	while(++i < 3)
+	{
+		if(ft_skipws(line)[0] == 'F')
+			macro->map->f[i] = ft_atoi(skipped);
+		else if(ft_skipws(line)[0]  == 'C')
+			macro->map->c[i] = ft_atoi(skipped);
+		skipped = ft_strchr(skipped, ',');
+		if(skipped)
+			skipped++;
+	}
+	return(0);
+}
+
+static int detect_section(char *line)
 {
 	char *skipped;
 	int section;
 
 	skipped = ft_skipws(line);
-	if(ft_strncmp(skipped, "NO",2) == 0)
+	if(ft_strncmp(skipped, "NO ",3) == 0)
 		section= 1;
-	else if(ft_strncmp(skipped, "SO",2) == 0)
+	else if(ft_strncmp(skipped, "SO ",3) == 0)
 		section= 1;
-	else if(ft_strncmp(skipped, "WE",2) == 0)
+	else if(ft_strncmp(skipped, "WE ",3) == 0)
 		section= 1;
-	else if(ft_strncmp(skipped, "EA",2) == 0)
+	else if(ft_strncmp(skipped, "EA ",3) == 0)
 		section= 1;
-	else if(ft_strncmp(skipped, "F",1) == 0)
+	else if(ft_strncmp(skipped, "F ",2) == 0)
 		section= 2;
-	else if(ft_strncmp(skipped, "C",1) == 0)
+	else if(ft_strncmp(skipped, "C ",2) == 0)
 		section= 2;
 	else
 		section= 3;
 	return(section);
 }
 
-int parse_line(char *line, t_macro *macro, int section)
+static int parse_line(char *line, t_macro *macro, int section)
 {
 	int err;
 
 	err = 0;
 	if(section == 1)
 		err = parse_textures(line, macro);
+	if(section == 2)
+		err = parse_colors(line, macro);
+	// if(section == 3)
+	// 	err = parse_map(line, macro);
 	return(err);
 }
 
-int read_file(char *file, t_macro *macro)
+static int read_file(char *file, t_macro *macro)
 {
 	char *line;
 	int fd;
