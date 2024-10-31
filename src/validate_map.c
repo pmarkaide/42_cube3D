@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 16:21:37 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:54:34 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ static int detect_section(char *line)
 	return(section);
 }
 
+static int parse_map(char *line, t_macro *macro)
+{
+	 static t_list *head;
+
+	 head = NULL;
+	 
+	 
+}
+
 static int parse_line(char *line, t_macro *macro, int section)
 {
 	int err;
@@ -102,8 +111,8 @@ static int parse_line(char *line, t_macro *macro, int section)
 		err = parse_textures(line, macro);
 	if(section == 2)
 		err = parse_colors(line, macro);
-	// if(section == 3)
-	// 	err = parse_map(line, macro);
+	if(section == 3)
+		err = parse_map(line, macro);
 	return(err);
 }
 
