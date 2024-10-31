@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 22:11:27 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:34:41 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,50 @@ static int read_file(char *file, t_macro *macro)
 	return (0);
 }
 
+static int validate_textures(t_macro *macro)
+{
+	if (eval_file(macro->map->no, ""))
+		return (1);
+	if (eval_file(macro->map->so, ""))
+		return (1);
+	if (eval_file(macro->map->we, ""))
+		return (1);
+	if (eval_file(macro->map->ea, ""))
+		return (1);
+	return (0);
+}
+
+static int validate_colors(int *f, int *c)
+{
+	int i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (f[i] < 0 || f[i] > 255)
+		{
+			ft_printf(2, "Error\nFloor color value %d out of range\n", f[i]);
+			return (1);
+		}
+		if (c[i] < 0 || c[i] > 255)
+		{
+			ft_printf(2, "Error\nCeiling color value %d out of range\n", c[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int validate_contents(t_macro *macro)
+{
+	if (validate_textures(macro))
+		return (1);
+	if (validate_colors(macro->map->f, macro->map->c))
+		return (1);
+	return (0);
+}
+
 void	validate_map(char *file, t_macro *macro)
 {
 	if (eval_file(file, ".cub"))
@@ -154,6 +198,6 @@ void	validate_map(char *file, t_macro *macro)
 	if (read_file(file, macro))
 		free_and_exit(macro);
 	print_map_struct(macro->map);
-	// if (validate_contents(macro))
-	// 	free_and_exit(macro);
+	if (validate_contents(macro))
+		free_and_exit(macro);
 }
