@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_map.c                                     :+:      :+:    :+:   */
+/*   validate_map_file.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/31 22:38:10 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:07:55 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,17 @@ static int	eval_file(char *file, char *ext)
 
 static int parse_textures(char *line, t_macro *macro)
 {
-	if(ft_strncmp(line, "NO",2) == 0)
-		macro->map->no = ft_strdup(ft_skipws(line + 2));
-	else if(ft_strncmp(line, "SO",2) == 0)
-		macro->map->so = ft_strdup(ft_skipws(line + 2));
-	else if(ft_strncmp(line, "WE",2) == 0)
-		macro->map->we = ft_strdup(ft_skipws(line + 2));
-	else if(ft_strncmp(line, "EA",2) == 0)
-		macro->map->ea = ft_strdup(ft_skipws(line + 2));
+	char *skipped;
+
+	skipped = ft_skipws(line);
+	if(ft_strncmp(skipped, "NO ",3) == 0)
+		macro->map->no = ft_strdup(ft_skipws(skipped + 2));
+	else if(ft_strncmp(skipped, "SO ",3) == 0)
+		macro->map->so = ft_strdup(ft_skipws(skipped + 2));
+	else if(ft_strncmp(skipped, "WE ",3) == 0)
+		macro->map->we = ft_strdup(ft_skipws(skipped + 2));
+	else if(ft_strncmp(skipped, "EA ",3) == 0)
+		macro->map->ea = ft_strdup(ft_skipws(skipped + 2));
 	return(0);
 }
 
@@ -203,10 +206,12 @@ int validate_contents(t_macro *macro)
 		return (1);
 	if (validate_colors(macro->map->f, macro->map->c))
 		return (1);
+	if (validate_map(macro))
+		return(1);
 	return (0);
 }
 
-void	validate_map(char *file, t_macro *macro)
+void	validate_map_file(char *file, t_macro *macro)
 {
 	if (eval_file(file, ".cub"))
 		free_and_exit(macro);
