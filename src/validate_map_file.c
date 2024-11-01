@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/11/01 15:17:21 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/11/01 15:24:12 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,14 +239,43 @@ static int validate_colors(int *f, int *c)
 	return (0);
 }
 
+static int is_valid_map_char(char **map)
+{
+	int i, j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (strchr("10NSWE ", map[i][j]) == NULL)
+			{
+				ft_printf(2, "Error\nInvalid character '%c' in map\n", map[i][j]);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+static int evaluate_map(t_macro *macro)
+{
+	if (!is_valid_map_char(macro->map->map))
+		return (1);
+	return (0);
+}
+
 int validate_contents(t_macro *macro)
 {
 	if (validate_textures(macro))
 		return (1);
 	if (validate_colors(macro->map->f, macro->map->c))
 		return (1);
-	// if (validate_map(macro))
-	// 	return(1);
+	if (evaluate_map(macro))
+		return (1);
 	return (0);
 }
 
