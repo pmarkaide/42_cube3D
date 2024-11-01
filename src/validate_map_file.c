@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/11/01 14:07:55 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:55:32 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,38 @@ static int	eval_file(char *file, char *ext)
 	return check_file_contents(file);
 }
 
-static int parse_textures(char *line, t_macro *macro)
+static int set_texture_path(char **texture, char *path)
 {
-	char *skipped;
-
-	skipped = ft_skipws(line);
-	if(ft_strncmp(skipped, "NO ",3) == 0)
-		macro->map->no = ft_strdup(ft_skipws(skipped + 2));
-	else if(ft_strncmp(skipped, "SO ",3) == 0)
-		macro->map->so = ft_strdup(ft_skipws(skipped + 2));
-	else if(ft_strncmp(skipped, "WE ",3) == 0)
-		macro->map->we = ft_strdup(ft_skipws(skipped + 2));
-	else if(ft_strncmp(skipped, "EA ",3) == 0)
-		macro->map->ea = ft_strdup(ft_skipws(skipped + 2));
-	return(0);
+	if (*texture != NULL)
+	{
+		ft_printf(2, "Error\nDuplicate texture path\n");
+		return (1);
+	}
+	*texture = ft_strdup(path);
+	if (*texture == NULL)
+	{
+		ft_printf(2, "Error\nMemory allocation failed\n");
+		return (1);
+	}
+	return (0);
 }
 
+static int parse_textures(char *line, t_macro *macro)
+{
+	int err = 0;
+	char *skipped = ft_skipws(line);
+	char *path = ft_skipws(skipped + 2);
+
+	if (ft_strncmp(skipped, "NO ", 3) == 0)
+		err = set_texture_path(&(macro->map->no), path);
+	else if (ft_strncmp(skipped, "SO ", 3) == 0)
+		err = set_texture_path(&(macro->map->so), path);
+	else if (ft_strncmp(skipped, "WE ", 3) == 0)
+		err = set_texture_path(&(macro->map->we), path);
+	else if (ft_strncmp(skipped, "EA ", 3) == 0)
+		err = set_texture_path(&(macro->map->ea), path);
+	return err;
+}
 static  int parse_colors(char *line, t_macro *macro)
 {
 	char *skipped;
