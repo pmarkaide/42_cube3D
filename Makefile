@@ -16,7 +16,7 @@ SRCS = \
 	main.c \
 	init.c \
 	free.c \
-	validate_map.c \
+	validate_map_file.c \
 	_utils.c
 
 SRCS_DIR = src

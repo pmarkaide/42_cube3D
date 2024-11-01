@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 15:05:20 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/11/01 14:55:32 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/11/01 15:17:21 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,22 @@ static int parse_map(char *line, t_list **head)
 	return (0);
 }
 
+static int premap_ready(t_macro *macro)
+{
+	int i = 0;
+
+	if (macro->map->no == NULL || macro->map->so == NULL ||
+		macro->map->we == NULL || macro->map->ea == NULL)
+		return (0);
+	while (i < 3)
+	{
+		if (macro->map->f[i] == -1 || macro->map->c[i] == -1)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int parse_line(char *line, t_macro *macro, int section, t_list **head)
 {
 	int err;
@@ -151,7 +167,14 @@ static int parse_line(char *line, t_macro *macro, int section, t_list **head)
 	if(section == 2)
 		err = parse_colors(line, macro);
 	if(section == 3)
+	{
+		if (!premap_ready(macro))
+		{
+			ft_printf(2, "Error\nMap section found before textures and colors are fully defined\n");
+			return (1);
+		}
 		err = parse_map(line, head);
+	}
 	return(err);
 }
 
@@ -222,8 +245,8 @@ int validate_contents(t_macro *macro)
 		return (1);
 	if (validate_colors(macro->map->f, macro->map->c))
 		return (1);
-	if (validate_map(macro))
-		return(1);
+	// if (validate_map(macro))
+	// 	return(1);
 	return (0);
 }
 
